@@ -25,7 +25,7 @@ jobs:
         choco install ninja
         choco install strawberryperl
         choco install visualstudio2019-workload-vctools
-        choco install gnutls
+        choco install gnutls --pre
 
     - name: Download and install Bison
       run: |
