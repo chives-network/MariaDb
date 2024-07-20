@@ -27,9 +27,13 @@ jobs:
 
     - name: Install Bison
       run: |
+        $directory = "C:\GnuWin32"
+        if (-Not (Test-Path $directory)) {
+            New-Item -ItemType Directory -Path $directory
+        }
         Invoke-WebRequest -Uri https://sourceforge.net/projects/gnuwin32/files/bison/2.4.1/bison-2.4.1-setup.exe/download -OutFile bison-2.4.1-setup.exe
-        Start-Process bison-2.4.1-setup.exe -ArgumentList "/SILENT", "/DIR=C:\GnuWin32" -Wait
-        echo "C:\GnuWin32\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        Start-Process bison-2.4.1-setup.exe -ArgumentList "/SILENT", "/DIR=$directory" -Wait
+        echo "$directory\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         
     - name: Install dependencies
       run: |
