@@ -25,7 +25,6 @@ jobs:
         choco install ninja
         choco install strawberryperl
         choco install visualstudio2019-workload-vctools
-        choco install gnutls --pre
 
     - name: Download and install Bison
       run: |
@@ -33,11 +32,6 @@ jobs:
         Expand-Archive -Path bison.zip -DestinationPath C:\GnuWin32
         $env:PATH += ";C:\GnuWin32\bin"
         echo "BISON_EXECUTABLE=C:/GnuWin32/bin/bison.exe" >> $GITHUB_ENV
-        
-    - name: Set environment variables for GnuTLS
-      run: |
-        echo "GNUTLS_LIBRARY=C:\ProgramData\chocolatey\lib\gnutls\tools\gnutls-cli-debug\lib\libgnutls.lib" >> $GITHUB_ENV
-        echo "GNUTLS_INCLUDE_DIR=C:\ProgramData\chocolatey\lib\gnutls\tools\gnutls-cli-debug\include" >> $GITHUB_ENV
         
     - name: Create build directory
       run: |
