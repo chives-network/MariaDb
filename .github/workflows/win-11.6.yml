@@ -26,9 +26,14 @@ jobs:
         choco install strawberryperl
         choco install visualstudio2019-workload-vctools
 
+    - name: Create build directory
+      run: |
+        if (-Not (Test-Path -Path "build")) {
+          mkdir build
+        }
+
     - name: Configure MariaDB
       run: |
-        mkdir build
         cd build
         cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DWITH_SSL=bundled -DWITH_ZLIB=bundled -DWITH_UNIT_TESTS=OFF
 
