@@ -26,13 +26,6 @@ jobs:
         choco install strawberryperl
         choco install visualstudio2019-workload-vctools
 
-    - name: Download and install Bison
-      run: |
-        Invoke-WebRequest -Uri "http://gnuwin32.sourceforge.net/downlinks/bison-bin-zip.php" -OutFile bison.zip
-        Expand-Archive -Path bison.zip -DestinationPath C:\GnuWin32
-        $env:PATH += ";C:\GnuWin32\bin"
-        echo "BISON_EXECUTABLE=C:/GnuWin32/bin/bison.exe" >> $GITHUB_ENV
-        
     - name: Create build directory
       run: |
         if (-Not (Test-Path -Path "build")) {
