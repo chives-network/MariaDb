@@ -25,7 +25,15 @@ jobs:
         choco install ninja
         choco install strawberryperl
         choco install visualstudio2019-workload-vctools
+        choco install gnutls
 
+    - name: Download and install Bison
+      run: |
+        Invoke-WebRequest -Uri "http://gnuwin32.sourceforge.net/downlinks/bison-bin-zip.php" -OutFile bison.zip
+        Expand-Archive -Path bison.zip -DestinationPath C:\GnuWin32
+        $env:PATH += ";C:\GnuWin32\bin"
+        echo "BISON_EXECUTABLE=C:/GnuWin32/bin/bison.exe" >> $GITHUB_ENV
+        
     - name: Set environment variables for GnuTLS
       run: |
         echo "GNUTLS_LIBRARY=C:\ProgramData\chocolatey\lib\gnutls\tools\gnutls-cli-debug\lib\libgnutls.lib" >> $GITHUB_ENV
@@ -53,7 +61,7 @@ jobs:
         cpack -G WIX
 
     - name: Upload binary package
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: mariadb-binary-package
         path: build/*.msi
