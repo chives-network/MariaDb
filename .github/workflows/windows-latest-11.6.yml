@@ -27,7 +27,7 @@ jobs:
 
     - name: Install Bison
       run: |
-        $directory = "C:\GnuWin32"
+        $directory = "D:\a\GnuWin32"
         if (-Not (Test-Path $directory)) {
             New-Item -ItemType Directory -Path $directory
         }
