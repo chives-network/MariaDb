@@ -1,0 +1,48 @@
+name: Build MariaDB on Ubuntu 22.04
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+
+    - name: Set up CMake
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get install -y build-essential libssl-dev libncurses5-dev libreadline-dev libaio-dev libjemalloc-dev libcurl4-openssl-dev libldap2-dev libmariadb-dev-compat libmariadb-dev
+
+    - name: Configure MariaDB
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build MariaDB
+      run: |
+        cd build
+        make -j$(nproc)
+
+    - name: Package MariaDB
+      run: |
+        cd build
+        make package
+
+    - name: Upload binary package
+      uses: actions/upload-artifact@v2
+      with:
+        name: mariadb-binary-package
+        path: build/*.deb
