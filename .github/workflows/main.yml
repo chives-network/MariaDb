@@ -3,10 +3,10 @@ name: Build MariaDB on Ubuntu 22.04
 on:
   push:
     branches:
-      - main
+      - 11.6
   pull_request:
     branches:
-      - main
+      - 11.6
 
 jobs:
   build:
