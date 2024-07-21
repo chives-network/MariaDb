@@ -1,0 +1,60 @@
+name: Build MariaDB on macOS
+
+on:
+  push:
+    branches:
+      - 11.6
+  pull_request:
+    branches:
+      - 11.6
+
+env:
+  MARIADB_VERSION: 11.6
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        brew update
+        brew install cmake openssl ncurses readline libaio jemalloc curl libldap mariadb
+
+    - name: Configure MariaDB
+      run: |
+        mkdir package
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Release -DWITH_SSL=system -DWITH_JEMALLOC=ON
+
+    - name: Build MariaDB
+      run: |
+        cd build
+        make -j$(sysctl -n hw.ncpu)
+
+    - name: Package MariaDB as tar.gz
+      run: |
+        cd build
+        make package
+
+    - name: Create package directory
+      run: |
+        mkdir -p package/usr/local/mariadb
+
+    - name: Extract tar.gz to package directory
+      run: |
+        tar -xzvf build/*.tar.gz --strip-components=1 -C package/usr/local/mariadb/
+
+    - name: Create installer package
+      run: |
+        pkgbuild --root package --identifier com.example.mariadb --version ${{ env.MARIADB_VERSION }} --install-location /usr/local mariadb-${{ env.MARIADB_VERSION }}.pkg
+
+    - name: Upload installer package
+      uses: actions/upload-artifact@v4
+      with:
+        name: mariadb-installer-package
+        path: mariadb-${{ env.MARIADB_VERSION }}.pkg
