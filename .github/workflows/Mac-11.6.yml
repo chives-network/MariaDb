@@ -22,7 +22,7 @@ jobs:
     - name: Install dependencies
       run: |
         brew update
-        brew install cmake openssl ncurses readline libaio jemalloc curl
+        brew install cmake openssl ncurses readline jemalloc curl
 
     - name: Configure MariaDB
       run: |
