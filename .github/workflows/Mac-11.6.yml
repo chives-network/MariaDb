@@ -23,6 +23,9 @@ jobs:
       run: |
         brew update
         brew install cmake openssl ncurses readline jemalloc curl bison
+        export PATH="/opt/homebrew/opt/bison/bin:$PATH"
+        source ~/.bashrc  # or source ~/.zshrc
+        bison --version
 
     - name: Configure MariaDB
       run: |
