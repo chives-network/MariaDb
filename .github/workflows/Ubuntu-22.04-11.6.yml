@@ -36,13 +36,27 @@ jobs:
         cd build
         make -j$(nproc)
 
-    - name: Package MariaDB
+    - name: Package MariaDB as tar.gz
       run: |
         cd build
         make package
+
+    - name: Create DEB package
+      run: |
+        mkdir -p build/deb/DEBIAN
+        mkdir -p build/deb/usr/local/mariadb
+        cp -r build/* build/deb/usr/local/mariadb
+        echo "Package: mariadb" > build/deb/DEBIAN/control
+        echo "Version: 11.6" >> build/deb/DEBIAN/control
+        echo "Section: base" >> build/deb/DEBIAN/control
+        echo "Priority: optional" >> build/deb/DEBIAN/control
+        echo "Architecture: amd64" >> build/deb/DEBIAN/control
+        echo "Maintainer: Your Name <your.email@example.com>" >> build/deb/DEBIAN/control
+        echo "Description: MariaDB database server" >> build/deb/DEBIAN/control
+        dpkg-deb --build build/deb build/mariadb-11.6.deb
 
     - name: Upload binary package
       uses: actions/upload-artifact@v4
       with:
         name: mariadb-binary-package
-        path: build/*.gz
+        path: build/*.deb
