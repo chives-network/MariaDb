@@ -45,7 +45,10 @@ jobs:
       run: |
         mkdir -p build/deb/DEBIAN
         mkdir -p build/deb/usr/local/mariadb
-        cp -r build/* build/deb/usr/local/mariadb
+        # Copy the necessary files to the DEB package directory
+        find build -maxdepth 1 -type f -exec cp {} build/deb/usr/local/mariadb/ \;
+        find build -maxdepth 1 -type d -not -name 'deb' -exec cp -r {} build/deb/usr/local/mariadb/ \;
+        # Create the control file
         echo "Package: mariadb" > build/deb/DEBIAN/control
         echo "Version: 11.6" >> build/deb/DEBIAN/control
         echo "Section: base" >> build/deb/DEBIAN/control
@@ -53,6 +56,7 @@ jobs:
         echo "Architecture: amd64" >> build/deb/DEBIAN/control
         echo "Maintainer: Your Name <your.email@example.com>" >> build/deb/DEBIAN/control
         echo "Description: MariaDB database server" >> build/deb/DEBIAN/control
+        # Build the DEB package
         dpkg-deb --build build/deb build/mariadb-11.6.deb
 
     - name: Upload binary package
