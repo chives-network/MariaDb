@@ -27,6 +27,7 @@ jobs:
 
     - name: Configure MariaDB
       run: |
+        mkdir package
         mkdir build
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=Release
@@ -43,15 +44,15 @@ jobs:
 
     - name: Create DEB package directory structure
       run: |
-        mkdir -p build/deb/DEBIAN
-        mkdir -p build/deb/usr/local/mariadb
+        mkdir -p package/DEBIAN
+        mkdir -p package/usr/local/mariadb
 
     - name: Copy files to DEB package directory
-      run: cp -r build/* build/deb/usr/local/mariadb/
+      run: cp -r build/* package/usr/local/mariadb/
 
     - name: Create control file
       run: |
-        cat <<EOL > build/deb/DEBIAN/control
+        cat <<EOL > package/DEBIAN/control
         Package: mariadb
         Version: 11.6
         Section: base
@@ -62,7 +63,7 @@ jobs:
         EOL
 
     - name: Build the DEB package
-      run: dpkg-deb --build build/deb build/mariadb-11.6.deb
+      run: dpkg-deb --build package build/mariadb-11.6.deb
       
     - name: Upload binary package
       uses: actions/upload-artifact@v4
