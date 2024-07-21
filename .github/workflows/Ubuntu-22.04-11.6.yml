@@ -41,26 +41,31 @@ jobs:
         cd build
         make package
 
-    - name: Create DEB package
+    - name: Create DEB package directory structure
       run: |
         mkdir -p build/deb/DEBIAN
         mkdir -p build/deb/usr/local/mariadb
-        # Copy the necessary files to the DEB package directory
-        find build -maxdepth 1 -type f -exec cp {} build/deb/usr/local/mariadb/ \;
-        find build -maxdepth 1 -type d -not -name 'deb' -exec cp -r {} build/deb/usr/local/mariadb/ \;
-        # Create the control file
-        echo "Package: mariadb" > build/deb/DEBIAN/control
-        echo "Version: 11.6" >> build/deb/DEBIAN/control
-        echo "Section: base" >> build/deb/DEBIAN/control
-        echo "Priority: optional" >> build/deb/DEBIAN/control
-        echo "Architecture: amd64" >> build/deb/DEBIAN/control
-        echo "Maintainer: Your Name <your.email@example.com>" >> build/deb/DEBIAN/control
-        echo "Description: MariaDB database server" >> build/deb/DEBIAN/control
-        # Build the DEB package
-        dpkg-deb --build build/deb build/mariadb-11.6.deb
 
+    - name: Copy files to DEB package directory
+      run: cp -r build/* build/deb/usr/local/mariadb/
+
+    - name: Create control file
+      run: |
+        cat <<EOL > build/deb/DEBIAN/control
+        Package: mariadb
+        Version: 11.6
+        Section: base
+        Priority: optional
+        Architecture: amd64
+        Maintainer: Your Name <your.email@example.com>
+        Description: MariaDB database server
+        EOL
+
+    - name: Build the DEB package
+      run: dpkg-deb --build build/deb build/mariadb-11.6.deb
+      
     - name: Upload binary package
       uses: actions/upload-artifact@v4
       with:
         name: mariadb-binary-package
-        path: build/*.deb
+        path: build/mariadb-11.6.deb
