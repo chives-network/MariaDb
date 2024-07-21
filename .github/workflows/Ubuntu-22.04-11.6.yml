@@ -8,6 +8,9 @@ on:
     branches:
       - 11.6
 
+env:
+  MARIADB_VERSION: 11.6
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -55,7 +58,7 @@ jobs:
       run: |
         cat <<EOL > package/DEBIAN/control
         Package: MariaDb
-        Version: 11.6
+        Version: ${{ env.MARIADB_VERSION }}
         Section: base
         Priority: optional
         Architecture: amd64
@@ -64,12 +67,12 @@ jobs:
         EOL
 
     - name: Build the DEB package
-      run: dpkg-deb --build package build/mariadb-11.6.deb
+      run: dpkg-deb --build package build/mariadb-${{ env.MARIADB_VERSION }}.deb
       
     - name: Upload binary package
       uses: actions/upload-artifact@v4
       with:
         name: mariadb-binary-package
         path: |
-          build/mariadb-11.6.deb
+          build/mariadb-${{ env.MARIADB_VERSION }}.deb
           build/*.tar.gz
