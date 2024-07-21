@@ -47,8 +47,9 @@ jobs:
         mkdir -p package/DEBIAN
         mkdir -p package/usr/local/mariadb
 
-    - name: Copy files to DEB package directory
-      run: cp -r build/* package/usr/local/mariadb/
+    - name: Extract tar.gz to package directory
+      run: |
+        tar -xzvf build/*.tar.gz -C package/usr/local/mariadb/
 
     - name: Create control file
       run: |
