@@ -26,7 +26,7 @@ jobs:
 
     - name: Configure MariaDB
       run: |
-        mkdir package
+        mkdir outputdir
         mkdir build
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=Release -DWITH_SSL=system -DWITH_JEMALLOC=ON
@@ -39,22 +39,22 @@ jobs:
     - name: Package MariaDB as tar.gz
       run: |
         cd build
-        make package
+        make outputdir
 
-    - name: Create package directory
+    - name: Create outputdir directory
       run: |
-        mkdir -p package/usr/local/mariadb
+        mkdir -p outputdir/usr/local/mariadb
 
-    - name: Extract tar.gz to package directory
+    - name: Extract tar.gz to outputdir directory
       run: |
-        tar -xzvf build/*.tar.gz --strip-components=1 -C package/usr/local/mariadb/
+        tar -xzvf build/*.tar.gz --strip-components=1 -C outputdir/usr/local/mariadb/
 
-    - name: Create installer package
+    - name: Create installer outputdir
       run: |
-        pkgbuild --root package --identifier com.example.mariadb --version ${{ env.MARIADB_VERSION }} --install-location /usr/local mariadb-${{ env.MARIADB_VERSION }}.pkg
+        pkgbuild --root outputdir --identifier com.example.mariadb --version ${{ env.MARIADB_VERSION }} --install-location /usr/local mariadb-${{ env.MARIADB_VERSION }}.pkg
 
-    - name: Upload installer package
+    - name: Upload installer outputdir
       uses: actions/upload-artifact@v4
       with:
-        name: mariadb-installer-package
+        name: mariadb-installer-outputdir
         path: mariadb-${{ env.MARIADB_VERSION }}.pkg
