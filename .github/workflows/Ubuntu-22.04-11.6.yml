@@ -49,18 +49,18 @@ jobs:
 
     - name: Extract tar.gz to package directory
       run: |
-        tar -xzvf build/*.tar.gz -C package/usr/local/mariadb/
+        tar -xzvf build/*.tar.gz --strip-components=1 -C package/usr/local/mariadb/
 
     - name: Create control file
       run: |
         cat <<EOL > package/DEBIAN/control
-        Package: mariadb
+        Package: MariaDb
         Version: 11.6
         Section: base
         Priority: optional
         Architecture: amd64
-        Maintainer: Your Name <your.email@example.com>
-        Description: MariaDB database server
+        Maintainer: Chives Network <reactchives@gmail.com>
+        Description: MariaDb Database Server By Chives Network
         EOL
 
     - name: Build the DEB package
@@ -70,4 +70,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: mariadb-binary-package
-        path: build/mariadb-11.6.deb
+        path: |
+          build/mariadb-11.6.deb
+          build/*.tar.gz
