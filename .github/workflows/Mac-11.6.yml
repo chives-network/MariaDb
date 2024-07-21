@@ -26,8 +26,8 @@ jobs:
 
     - name: Configure MariaDB
       run: |
-        mkdir package
-        mkdir build
+        mkdir -p package
+        mkdir -p build
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=Release -DWITH_SSL=system -DWITH_JEMALLOC=ON
 
@@ -39,7 +39,7 @@ jobs:
     - name: Package MariaDB as tar.gz
       run: |
         cd build
-        make -p package
+        make package
 
     - name: Create package directory
       run: |
