@@ -64,6 +64,7 @@ jobs:
         cd build
         cpack -G WIX
 
+
     - name: Upload binary package
       uses: actions/upload-artifact@v4
       with:
