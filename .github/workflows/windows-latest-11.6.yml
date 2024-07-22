@@ -3,10 +3,10 @@ name: Build MariaDB 11.6 on Windows
 on:
   push:
     branches:
-      - 11.6
+      - '11.6'
   pull_request:
     branches:
-      - 11.6
+      - '11.6'
 
 jobs:
   build:
@@ -20,33 +20,25 @@ jobs:
       uses: msys2/setup-msys2@v2
       with:
         update: true
-        install: >-
+        install: |
           base-devel
           mingw-w64-x86_64-toolchain
           bison
+          diffutils
+          cmake
+          ninja
+          strawberryperl
 
     - name: Add MSYS2 to PATH
-      run: echo "C:\\msys64\\usr\\bin" >> $GITHUB_PATH
+      run: |
+        echo "C:\\msys64\\usr\\bin" >> $GITHUB_PATH
 
     - name: Verify Bison installation
-      shell: msys2 {0}
+      shell: msys2
       run: bison --version
-
-    - name: Set up Visual Studio
-      uses: microsoft/setup-msbuild@v1
-
-    - name: Install Chocolatey
-      run: |
-        Set-ExecutionPolicy Bypass -Scope Process -Force; `
-        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
-        iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-
+    
     - name: Install dependencies
       run: |
-        choco install diffutils -y
-        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
-        choco install ninja -y
-        choco install strawberryperl -y
         choco install visualstudio2019-workload-vctools -y
 
     - name: Create build directory
