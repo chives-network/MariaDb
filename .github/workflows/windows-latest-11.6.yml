@@ -32,6 +32,12 @@ jobs:
           diffutils
           cmake
           ninja
+          mingw-w64-x86_64-cmake
+          mingw-w64-x86_64-pkg-config
+          mingw-w64-x86_64-boost
+          mingw-w64-x86_64-openssl
+          mingw-w64-x86_64-libevent
+          mingw-w64-x86_64-zlib
 
     - name: Add MSYS2 to PATH
       run: |
