@@ -33,7 +33,6 @@ jobs:
         echo "C:\\msys64\\usr\\bin" >> $GITHUB_PATH
 
     - name: Verify Bison installation
-      shell: msys2
       run: bison --version
     
     - name: Install dependencies
