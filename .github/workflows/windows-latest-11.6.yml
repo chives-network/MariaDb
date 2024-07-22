@@ -16,6 +16,21 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v3
 
+    - name: Set up MSYS2
+      uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: >-
+          base-devel
+          mingw-w64-x86_64-toolchain
+          bison
+
+    - name: Add MSYS2 to PATH
+      run: echo "C:\\msys64\\usr\\bin" >> $GITHUB_PATH
+
+    - name: Verify Bison installation
+      run: bison --version
+
     - name: Set up Visual Studio
       uses: microsoft/setup-msbuild@v1
 
