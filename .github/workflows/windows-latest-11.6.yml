@@ -27,7 +27,6 @@ jobs:
           diffutils
           cmake
           ninja
-          strawberryperl
 
     - name: Add MSYS2 to PATH
       run: |
