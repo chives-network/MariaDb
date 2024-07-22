@@ -64,12 +64,6 @@ jobs:
       shell: msys2 {0}
       run: |
         cd build
-        cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DWITH_SSL=bundled -DWITH_ZLIB=bundled -DWITH_UNIT_TESTS=OFF
-    
-    - name: Configure MariaDB
-      shell: msys2 {0}
-      run: |
-        cd build
         cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DWITH_SSL=bundled -DWITH_ZLIB=bundled -DWITH_UNIT_TESTS=OFF -DWITH_SNAPPY=ON -DWITH_OQGRAPH=OFF
 
         
