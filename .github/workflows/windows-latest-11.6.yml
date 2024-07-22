@@ -29,6 +29,7 @@ jobs:
       run: echo "C:\\msys64\\usr\\bin" >> $GITHUB_PATH
 
     - name: Verify Bison installation
+      shell: msys2 {0}
       run: bison --version
 
     - name: Set up Visual Studio
