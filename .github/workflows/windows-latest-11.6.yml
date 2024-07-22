@@ -33,7 +33,7 @@ jobs:
         echo "C:\\msys64\\usr\\bin" >> $GITHUB_PATH
 
     - name: Verify Bison installation
-      shell: msys2
+      shell: msys2 {0}
       run: bison --version
     
     - name: Install dependencies
@@ -47,19 +47,19 @@ jobs:
         }
 
     - name: Configure MariaDB
-      shell: msys2
+      shell: msys2 {0}
       run: |
         cd build
         cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DWITH_SSL=bundled -DWITH_ZLIB=bundled -DWITH_UNIT_TESTS=OFF
 
     - name: Build MariaDB
-      shell: msys2
+      shell: msys2 {0}
       run: |
         cd build
         ninja
 
     - name: Package MariaDB
-      shell: msys2
+      shell: msys2 {0}
       run: |
         cd build
         cpack -G WIX
