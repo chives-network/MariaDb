@@ -64,7 +64,8 @@ jobs:
       shell: msys2 {0}
       run: |
         cd build
-        cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DWITH_SSL=bundled -DWITH_ZLIB=bundled -DWITH_UNIT_TESTS=OFF -DWITH_OQGRAPH=OFF -DPLUGIN_OQGRAPH=NO
+        rm -f CMakeCache.txt
+        cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DWITH_SSL=bundled -DWITH_ZLIB=bundled -DWITH_UNIT_TESTS=OFF -DWITH_OQGRAPH=OFF -DPLUGIN_OQGRAPH=NO -DCMAKE_VERBOSE_MAKEFILE=ON
 
     - name: Build MariaDB
       shell: msys2 {0}
