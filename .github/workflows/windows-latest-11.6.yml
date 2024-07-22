@@ -32,7 +32,6 @@ jobs:
           diffutils
           cmake
           ninja
-          mingw-w64-x86_64-judy
           mingw-w64-x86_64-cmake
           mingw-w64-x86_64-pkg-config
           mingw-w64-x86_64-boost
@@ -51,6 +50,17 @@ jobs:
       shell: msys2 {0}
       run: bison --version
     
+    - name: Install Judy library
+      shell: msys2 {0}
+      run: |
+        pacman -S --noconfirm git wget tar
+        wget https://sourceforge.net/projects/judy/files/judy/Judy-1.0.5/Judy-1.0.5.tar.gz
+        tar -xzf Judy-1.0.5.tar.gz
+        cd Judy-1.0.5
+        ./configure --prefix=/mingw64
+        make
+        make install
+
     - name: Install dependencies
       run: |
         choco install visualstudio2019-workload-vctools -y
