@@ -50,17 +50,6 @@ jobs:
       shell: msys2 {0}
       run: bison --version
     
-    - name: Install Judy library
-      shell: msys2 {0}
-      run: |
-        pacman -S --noconfirm git wget tar
-        wget https://sourceforge.net/projects/judy/files/judy/Judy-1.0.5/Judy-1.0.5.tar.gz
-        tar -xzf Judy-1.0.5.tar.gz
-        cd Judy-1.0.5
-        ./configure --prefix=/mingw64
-        make
-        make install
-
     - name: Install dependencies
       run: |
         choco install visualstudio2019-workload-vctools -y
@@ -75,7 +64,7 @@ jobs:
       shell: msys2 {0}
       run: |
         cd build
-        cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DWITH_SSL=bundled -DWITH_ZLIB=bundled -DWITH_UNIT_TESTS=OFF -DWITH_OQGRAPH=OFF
+        cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DWITH_SSL=bundled -DWITH_ZLIB=bundled -DWITH_UNIT_TESTS=OFF -DWITH_OQGRAPH=OFF -DPLUGIN_OQGRAPH=NO
 
     - name: Build MariaDB
       shell: msys2 {0}
