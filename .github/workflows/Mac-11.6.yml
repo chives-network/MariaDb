@@ -28,6 +28,11 @@ jobs:
         source ~/.bashrc  # or source ~/.zshrc
         bison --version
 
+    - name: Ensure CMake version compatibility
+      run: |
+        brew install cmake
+        cmake --version
+
     - name: Configure MariaDB
       run: |
         mkdir -p package
