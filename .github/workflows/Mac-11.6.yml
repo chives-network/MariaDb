@@ -25,7 +25,8 @@ jobs:
         brew uninstall bison || true  # Uninstall old version if it exists
         brew install cmake openssl ncurses readline jemalloc curl bison
         export PATH="/opt/homebrew/opt/bison/bin:$PATH"
-        source ~/.bashrc  # or source ~/.zshrc
+        echo 'export PATH="/opt/homebrew/opt/bison/bin:$PATH"' >> ~/.zshrc  # Ensure the path is set in the shell config
+        source ~/.zshrc
         bison --version
 
     - name: Ensure CMake version compatibility
