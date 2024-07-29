@@ -38,7 +38,7 @@ jobs:
         mkdir -p package
         mkdir -p build
         cd build
-        cmake .. -DCMAKE_BUILD_TYPE=Release -DWITH_SSL=system -DWITH_JEMALLOC=ON
+        cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_SSL=bundled -DWITH_ZLIB=bundled -DWITH_UNIT_TESTS=OFF -DWITH_OQGRAPH=OFF -DPLUGIN_OQGRAPH=NO -DCMAKE_VERBOSE_MAKEFILE=ON
 
     - name: Build MariaDB
       run: |
